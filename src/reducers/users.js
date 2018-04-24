@@ -4,6 +4,8 @@ const token = (state = '', action) => {
   switch (action.type) {
     case 'FETCH_USER_TOKEN_FULFILLED':
       return action.payload.data;
+    case 'DESTROY_USER_TOKEN':
+      return action.payload.data;
     default:
       return state;
   }

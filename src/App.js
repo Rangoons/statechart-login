@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import Authentication from 'Authentication';
 import { Provider, connect } from 'react-redux';
+import { fetchUserToken, destroyUserToken } from 'actions/users';
 //import 'App.css';
 
 class App extends Component {
@@ -17,12 +18,21 @@ class App extends Component {
       <Provider store={this.props.store}>
         <div>
           <h3>Authentication Machine State: {this.state.machineState}</h3>
-          <Authentication handleChange={this.handleMachineStateChange} />
+          <p>{this.props.token}</p>
+          <Authentication
+            handleChange={this.handleMachineStateChange}
+            fetchUserToken={this.props.fetchUserToken}
+            destroyUserToken={this.props.destroyUserToken}
+          />
         </div>
       </Provider>
     );
   }
 }
 
-//Connecterinio
+const mapStateToProps = state => ({
+  token: state.users.token,
+});
+
+App = connect(mapStateToProps, { fetchUserToken, destroyUserToken })(App);
 export default App;

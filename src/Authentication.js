@@ -9,7 +9,6 @@ import {
   UncontrolledAlert,
 } from 'reactstrap';
 import authentication from 'machines/authentication';
-import { fetchUserToken } from 'actions/users';
 
 class Authentication extends Component {
   componentDidMount() {
@@ -22,9 +21,9 @@ class Authentication extends Component {
   }
 
   sendLoginRequest() {
-    fetchUserToken(this.props.credentials)
+    this.props
+      .fetchUserToken(this.props.credentials)
       .then(() => {
-        //should save token in redux state
         this.props.transition('SUCCESS');
       })
       .catch(() => {
@@ -33,6 +32,7 @@ class Authentication extends Component {
   }
 
   handleLogout = () => {
+    this.props.destroyUserToken();
     this.props.transition('LOGOUT');
   };
 

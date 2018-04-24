@@ -2,13 +2,13 @@
 
 export const getToken = username => {
   return new Promise((resolve, reject) => {
-    if (username.length >= 4) {
+    if (username) {
       setTimeout(() => {
-        resolve('secret-token-code');
+        resolve({ data: 'secret-token-code' });
       }, 1000);
     } else {
       setTimeout(() => {
-        reject('invalid username');
+        reject({ msg: 'invalid username' });
       }, 1000);
     }
   });
