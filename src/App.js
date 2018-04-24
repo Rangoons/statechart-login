@@ -1,15 +1,23 @@
 import React, { Component } from "react";
-import AuthWithStatechart from "./Authentication";
+import Authentication from "./Authentication";
 import "./App.css";
 
 class App extends Component {
   constructor(props) {
     super(props);
-    this.state = {};
+    this.state = { machineState: "" };
   }
 
+  handleMachineStateChange = machineState => {
+    this.setState({ machineState });
+  };
   render() {
-    return <AuthWithStatechart />;
+    return (
+      <div>
+        <h3>Authentication Machine State: {this.state.machineState}</h3>
+        <Authentication handleChange={this.handleMachineStateChange} />
+      </div>
+    );
   }
 }
 

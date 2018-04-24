@@ -27,8 +27,7 @@ const authentication = {
       on: {
         //when a 'LOGOUT' event occurs, transition to the unauthenticated state
         LOGOUT: "unauthenticated"
-      },
-      onEntry: ["alertLoggedIn"]
+      }
     }
   }
 };

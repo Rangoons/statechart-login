@@ -1,14 +1,27 @@
 import React, { Component } from "react";
-import { withStatechart } from "react-automata";
+import { withStatechart, State } from "react-automata";
 import { Button, Form, FormGroup, Label, Input } from "reactstrap";
 import authentication from "./machines/authentication";
 
 class Authentication extends Component {
-  state = { status: "unauthorized" };
+  componentDidMount() {
+    this.props.handleChange(this.props.machineState.value);
+  }
+  componentWillReceiveProps(nextProps) {
+    if (this.props.machineState.value !== nextProps.machineState.value) {
+      this.props.handleChange(nextProps.machineState.value);
+    }
+  }
 
   sendLoginRequest() {
-    console.log(this.props.credentials);
+    setTimeout(() => {
+      this.props.transition("SUCCESS");
+    }, 1000);
   }
+
+  handleLogout = () => {
+    this.props.transition("LOGOUT");
+  };
 
   handleSubmit = e => {
     e.preventDefault();
@@ -18,22 +31,30 @@ class Authentication extends Component {
 
   render() {
     return (
-      <Form inline onSubmit={this.handleSubmit}>
-        <FormGroup>
-          <Label for="username">Username: </Label>
-          <Input type="text" id="username" name="username" />
-        </FormGroup>
-        <Button
-          color="primary"
-          disabled={this.props.machineState.value === "loading"}
-        >
-          Login
-        </Button>
-      </Form>
+      <div>
+        <State value="unauthenticated">
+          <Form inline onSubmit={this.handleSubmit}>
+            <FormGroup>
+              <Label for="username">Username: </Label>
+              <Input type="text" id="username" name="username" />
+            </FormGroup>
+            <Button
+              color="primary"
+              disabled={this.props.machineState.value === "loading"}
+            >
+              Login
+            </Button>
+          </Form>
+        </State>
+
+        <State value="authenticated">
+          <Button color="danger" onClick={this.handleLogout}>
+            Logout
+          </Button>
+        </State>
+      </div>
     );
   }
 }
 
-const AuthWithStatechart = withStatechart(authentication)(Authentication);
-
-export default AuthWithStatechart;
+export default withStatechart(authentication)(Authentication);
