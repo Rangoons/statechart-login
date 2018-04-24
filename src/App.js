@@ -1,11 +1,12 @@
-import React, { Component } from "react";
-import Authentication from "./Authentication";
-import "./App.css";
+import React, { Component } from 'react';
+import Authentication from 'Authentication';
+import { Provider, connect } from 'react-redux';
+//import 'App.css';
 
 class App extends Component {
   constructor(props) {
     super(props);
-    this.state = { machineState: "" };
+    this.state = { machineState: '' };
   }
 
   handleMachineStateChange = machineState => {
@@ -13,12 +14,15 @@ class App extends Component {
   };
   render() {
     return (
-      <div>
-        <h3>Authentication Machine State: {this.state.machineState}</h3>
-        <Authentication handleChange={this.handleMachineStateChange} />
-      </div>
+      <Provider store={this.props.store}>
+        <div>
+          <h3>Authentication Machine State: {this.state.machineState}</h3>
+          <Authentication handleChange={this.handleMachineStateChange} />
+        </div>
+      </Provider>
     );
   }
 }
 
+//Connecterinio
 export default App;
