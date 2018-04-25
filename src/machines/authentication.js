@@ -28,6 +28,7 @@ const authentication = {
         //when a 'LOGOUT' event occurs, transition to the unauthenticated state
         LOGOUT: 'unauthenticated',
       },
+      onEntry: 'setStoreAuthentication',
     },
   },
 };

@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
 import { withStatechart, State } from 'react-automata';
 import {
   Button,
@@ -9,6 +10,7 @@ import {
   UncontrolledAlert,
 } from 'reactstrap';
 import authentication from 'machines/authentication';
+import { authenticateUser, unauthenticateUser } from 'actions/authentication';
 
 class Authentication extends Component {
   componentDidMount() {
@@ -33,8 +35,13 @@ class Authentication extends Component {
 
   handleLogout = () => {
     this.props.destroyUserToken();
+    this.props.unauthenticateUser();
     this.props.transition('LOGOUT');
   };
+
+  setStoreAuthentication() {
+    this.props.authenticateUser();
+  }
 
   handleSubmit = e => {
     e.preventDefault();
@@ -74,5 +81,13 @@ class Authentication extends Component {
     );
   }
 }
+const mapStateToProps = state => ({
+  isAuthenticated: state.authentication.isAuthenticated,
+});
+Authentication = withStatechart(authentication)(Authentication);
+Authentication = connect(mapStateToProps, {
+  authenticateUser,
+  unauthenticateUser,
+})(Authentication);
 
-export default withStatechart(authentication)(Authentication);
+export default Authentication;
