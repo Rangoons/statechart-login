@@ -15,23 +15,14 @@ import { PrivateRoute } from 'containers/PrivateRoute';
 //import 'App.css';
 
 class App extends Component {
-  constructor(props) {
-    super(props);
-    this.state = { machineState: '' };
-  }
-
-  handleMachineStateChange = machineState => {
-    this.setState({ machineState });
-  };
   render() {
     return (
       <Provider store={this.props.store}>
         <Router>
           <div>
-            <h3>Authentication Machine State: {this.state.machineState}</h3>
+            <h3>Authentication Machine State: {this.props.machineState}</h3>
             <p>{this.props.token}</p>
             <Authentication
-              handleChange={this.handleMachineStateChange}
               fetchUserToken={this.props.fetchUserToken}
               destroyUserToken={this.props.destroyUserToken}
             />
@@ -60,6 +51,7 @@ class App extends Component {
 const mapStateToProps = state => ({
   token: state.users.token,
   isAuthenticated: state.authentication.isAuthenticated,
+  machineState: state.authentication.machineState,
 });
 
 App = connect(mapStateToProps, { fetchUserToken, destroyUserToken })(App);

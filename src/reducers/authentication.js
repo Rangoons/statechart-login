@@ -11,8 +11,18 @@ const isAuthenticated = (state = false, action) => {
   }
 };
 
+const machineState = (state = 'unauthenticated', action) => {
+  switch (action.type) {
+    case 'UPDATE_AUTH_MACHINE_STATE':
+      return action.payload;
+    default:
+      return state;
+  }
+};
+
 const authentication = combineReducers({
   isAuthenticated,
+  machineState,
 });
 
 export default authentication;

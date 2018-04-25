@@ -10,15 +10,19 @@ import {
   UncontrolledAlert,
 } from 'reactstrap';
 import authentication from 'machines/authentication';
-import { authenticateUser, unauthenticateUser } from 'actions/authentication';
+import {
+  authenticateUser,
+  unauthenticateUser,
+  updateAuthMachineState,
+} from 'actions/authentication';
 
 class Authentication extends Component {
-  componentDidMount() {
-    this.props.handleChange(this.props.machineState.value);
-  }
+  // componentDidMount() {
+  //   this.props.handleChange(this.props.machineState.value);
+  // }
   componentWillReceiveProps(nextProps) {
     if (this.props.machineState.value !== nextProps.machineState.value) {
-      this.props.handleChange(nextProps.machineState.value);
+      this.props.updateAuthMachineState(nextProps.machineState.value);
     }
   }
 
@@ -88,6 +92,7 @@ Authentication = withStatechart(authentication)(Authentication);
 Authentication = connect(mapStateToProps, {
   authenticateUser,
   unauthenticateUser,
+  updateAuthMachineState,
 })(Authentication);
 
 export default Authentication;
